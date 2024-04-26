@@ -5,7 +5,9 @@ html {
   background-image: url('assets/grass.webp');
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -22,32 +24,32 @@ h1 {
   margin-bottom: 0;
 }
 
-h2{
+h2 {
   font-size: 5rem;
 }
 
 .score {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   padding: 0 3rem;
   line-height: 1;
   border-radius: 1rem;
 }
 
-.actions{
+.actions {
   margin-top: 7rem;
 }
 
-.cheer{
+.cheer {
   display: none;
 }
 
-.btn{
+.btn {
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin:0 auto;
+  margin: 0 auto;
   background: #E56F4C;
-  border:none;
+  border: none;
   padding: 2rem 3rem;
   border-radius: 5px;
   font-size: 2rem;
@@ -56,11 +58,11 @@ h2{
   color: #fff;
 }
 
-.start{
+.start {
   background: #443029;
 }
 
-.btn img{
+.btn img {
   height: 30px;
   width: 30px;
 }
@@ -85,7 +87,7 @@ h2{
   background-size: contain;
   content: '';
   width: 100%;
-  height:70px;
+  height: 70px;
   position: absolute;
   z-index: 2;
   bottom: -30px;
@@ -98,7 +100,7 @@ h2{
   top: 100%;
   width: 100%;
   height: 100%;
-  transition:all 0.4s;
+  transition: all 0.4s;
   cursor: pointer;
 }
 
@@ -111,22 +113,22 @@ h2{
   top: 50%;
 }
 
-.hammer{
+.hammer {
   position: absolute;
   top: 60px;
   left: 30px;
-  transform: translate(-30%,-50%); 
+  transform: translate(-30%, -50%);
   transition: transform .1s;
   z-index: 3;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
-.hammer.active{
-  transform: translate(-20%,-20%) rotate(-45deg);
+.hammer.active {
+  transform: translate(-20%, -20%) rotate(-45deg);
 }
 
-.game-over{
-  position:absolute;
+.game-over {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -137,34 +139,40 @@ h2{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap:3rem;
+  gap: 3rem;
 }
 
-.game-over.active{
+.game-over.active {
   display: flex;
 }
 
 /* animations */
-.shake{
+.shake {
   animation: move .5s ease-in;
 }
 
 @keyframes move {
-10%, 90% {
-  transform: translate3d(-8px, 0, 0);
-}
 
-20%, 80% {
-  transform: translate3d(8px, 0, 0);
-}
+  10%,
+  90% {
+    transform: translate3d(-8px, 0, 0);
+  }
 
-30%, 50%, 70% {
-  transform: translate3d(-12px, 0, 0);
-}
+  20%,
+  80% {
+    transform: translate3d(8px, 0, 0);
+  }
 
-40%, 60% {
-  transform: translate3d(12px, 0, 0);
-}
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-12px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(12px, 0, 0);
+  }
 }
 
 .animated {
@@ -177,15 +185,21 @@ h2{
     transform: scale3d(1, 1, 1);
   }
 
-  10%, 20% {
+  10%,
+  20% {
     transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
   }
 
-  30%, 50%, 70%, 90% {
+  30%,
+  50%,
+  70%,
+  90% {
     transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
   }
 
-  40%, 60%, 80% {
+  40%,
+  60%,
+  80% {
     transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
   }
 
@@ -197,8 +211,3 @@ h2{
 .tada {
   animation-name: tada;
 }
-
-
-
-
-

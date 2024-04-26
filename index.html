@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Whack A Mole!</title>
@@ -7,11 +8,12 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/mole.svg" />
 </head>
+
 <body>
 
   <h1>
     <span class="title">
-      Whack-a-mole! 
+      Whack-a-mole!
     </span>
     <span class="score">0</span>
   </h1>
@@ -41,16 +43,16 @@
 
   <div class="actions">
     <button class="btn start" onClick="startGame()">
-      <img src="assets/play.png"/>
+      <img src="assets/play.png" />
       play game
     </button>
   </div>
 
   <div class="game-over">
-    <h1>Game Over</h1>  
+    <h1>Game Over</h1>
     <h2>You Scored: <span class="score">0</span> 🎉</h2>
     <button class="btn" onClick="restart()">
-      <img src="assets/reset.png"/>
+      <img src="assets/reset.png" />
       Restart
     </button>
   </div>
@@ -66,42 +68,46 @@
     let timer = 20 * 1000
     let scoreCount = 0;
 
-    function playSound(file){
+    function playSound(file) {
       const sound = new Audio(file);
-      sound.play();      
+      sound.play();
     }
 
-    function hammerSound(){
+    function hammerSound() {
       playSound('assets/smash.mp3');
     }
 
-    function endSound(){
+    function moleSound() {
+      playSound('assets/mole.mp3');
+    }
+
+    function endSound() {
       playSound('assets/tada.mp3');
     }
 
-    function moveHammer(e){
+    function moveHammer(e) {
       hammer.style.top = e.pageY + 'px';
       hammer.style.left = e.pageX + 'px';
     }
-    
-    function randomNumber(max,min=0){
-      return Math.round(Math.random() * (max - min)+min);
+
+    function randomNumber(max, min = 0) {
+      return Math.round(Math.random() * (max - min) + min);
     }
 
-    function randomHole(){
+    function randomHole() {
       const idx = randomNumber(holes.length - 1);
       const hole = holes[idx];
 
-      if(lastHole === idx)
-            return randomHole();
-      
-      lastHole = idx; 
+      if (lastHole === idx)
+        return randomHole();
+
+      lastHole = idx;
 
       return hole;
     }
 
-    function peep(){
-      const time = randomNumber(1200,500);
+    function peep() {
+      const time = randomNumber(1200, 500);
       const hole = randomHole();
       const mole = hole.querySelector('.mole');
 
@@ -109,72 +115,75 @@
       hole.classList.toggle('up');
       setTimeout(() => {
         hole.classList.toggle('up');
-        
-        if(!timeUp)
+
+        if (!timeUp)
           peep();
       }, time);
     }
 
-    function bonk(){
-      if(!this.classList.contains('shake')){
-        hammerSound();
+    function bonk() {
+      if (!this.classList.contains('shake')) {
+        moleSound();
         this.classList.add('shake');
         score();
       }
     }
 
-    function hammerStrike(){
+    function hammerStrike() {
       hammer.classList.add('active');
+      hammerSound();
+      
       setTimeout(() => {
-      hammer.classList.remove('active');
+        hammer.classList.remove('active');
       }, 100);
     }
 
-    function score(){
+    function score() {
       scoreCount++;
       updateScoreBoard();
     }
 
-    function updateScoreBoard(){
+    function updateScoreBoard() {
       scoreBoard.forEach(board => board.textContent = scoreCount);
     }
 
-    function startTimer(){
-      setTimeout(()=>{
+    function startTimer() {
+      setTimeout(() => {
         stopGame();
-      },timer)
-    } 
-    
-    function stopGame(){
-      timeUp=true;
+      }, timer)
+    }
+
+    function stopGame() {
+      timeUp = true;
       gameOver.classList.add('active');
       endSound();
     }
 
-    function resetGame(){
+    function resetGame() {
       timeUp = false;
       gameOver.classList.remove('active');
       scoreCount = 0
       updateScoreBoard();
     }
 
-    function restart(){
+    function restart() {
       resetGame();
       startTimer();
       peep();
     }
 
-    function startGame(){
-      startBtn.style.display='none';
+    function startGame() {
+      startBtn.style.display = 'none';
       addHandlers();
       restart();
     }
 
-    function addHandlers(){
-      moles.forEach((mole)=>mole.addEventListener('click',bonk));
-      window.addEventListener('mousemove',moveHammer);
-      window.addEventListener('mousedown',hammerStrike);
+    function addHandlers() {
+      moles.forEach((mole) => mole.addEventListener('click', bonk));
+      window.addEventListener('mousemove', moveHammer);
+      window.addEventListener('mousedown', hammerStrike);
     }
   </script>
 </body>
+
 </html>
