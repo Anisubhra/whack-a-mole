@@ -3,187 +3,69 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Whack A Mole!</title>
+  <title>Whack-a-Mole Game - Test Your Reflexes!</title>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/mole.svg" />
+  <meta name="description" content="Whack-a-mole game! Test your reflexes and hit the moles.">
+  <meta name="keywords" content="whack a mole, game, reflexes, fun, arcade">
 </head>
 
 <body>
 
-  <h1>
-    <span class="title">
-      Whack-a-mole!
-    </span>
-    <span class="score">0</span>
-  </h1>
+  <header>
+    <h1>
+      <span class="title">
+        Whack-a-mole!
+      </span>
+      <span class="score" aria-live="polite">0</span>
+    </h1>
+  </header>
 
-  <div class="game">
-    <div class="hole hole1">
-      <div class="mole shake"></div>
+  <main>
+    <div class="game" aria-label="Whack a mole game area">
+      <div class="hole hole1">
+        <div class="mole shake"></div>
+      </div>
+      <div class="hole hole2">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole3">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole4">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole5">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole6">
+        <div class="mole"></div>
+      </div>
     </div>
-    <div class="hole hole2">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole3">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole4">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole5">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole6">
-      <div class="mole"></div>
-    </div>
-  </div>
 
-  <img class="hammer" src="assets/hammer.png">
+    <img class="hammer" src="assets/hammer.png" alt="Hammer" aria-hidden="true">
 
-  <div class="actions">
-    <button class="btn start" onClick="startGame()">
-      <img src="assets/play.png" />
-      play game
-    </button>
-  </div>
+    <div class="actions">
+      <button class="btn start" onclick="startGame()" aria-label="Start Game">
+        <img src="assets/play.png" alt="Play" aria-hidden="true" />
+        play game
+      </button>
+    </div>
+  </main>
 
-  <div class="game-over">
-    <h1>Game Over</h1>
-    <h2>You Scored: <span class="score">0</span> 🎉</h2>
-    <button class="btn" onClick="restart()">
-      <img src="assets/reset.png" />
+  <div class="game-over" aria-modal="true" role="dialog" aria-labelledby="gameOverTitle" tabindex="-1">
+    <h1 id="gameOverTitle">Game Over</h1>
+    <h2 aria-live="polite">You Scored: <span class="score">0</span> 🎉</h2>
+    <button class="btn" onclick="restart()" aria-label="Restart Game">
+      <img src="assets/reset.png" alt="Restart" aria-hidden="true" />
       Restart
     </button>
   </div>
-  <script>
-    const holes = document.querySelectorAll('.hole');
-    const moles = document.querySelectorAll('.mole');
-    const scoreBoard = document.querySelectorAll('.score');
-    const hammer = document.querySelector('.hammer');
-    const gameOver = document.querySelector('.game-over');
-    const startBtn = document.querySelector('.start');
-    let lastHole;
-    let timeUp;
-    let timer = 20 * 1000
-    let scoreCount = 0;
 
-    function playSound(file) {
-      const sound = new Audio(file);
-      sound.play();
-    }
-
-    function hammerSound() {
-      playSound('assets/smash.mp3');
-    }
-
-    function moleSound() {
-      playSound('assets/mole.mp3');
-    }
-
-    function endSound() {
-      playSound('assets/tada.mp3');
-    }
-
-    function moveHammer(e) {
-      hammer.style.top = e.pageY + 'px';
-      hammer.style.left = e.pageX + 'px';
-    }
-
-    function randomNumber(max, min = 0) {
-      return Math.round(Math.random() * (max - min) + min);
-    }
-
-    function randomHole() {
-      const idx = randomNumber(holes.length - 1);
-      const hole = holes[idx];
-
-      if (lastHole === idx)
-        return randomHole();
-
-      lastHole = idx;
-
-      return hole;
-    }
-
-    function peep() {
-      const time = randomNumber(1200, 500);
-      const hole = randomHole();
-      const mole = hole.querySelector('.mole');
-
-      mole.classList.remove('shake');
-      hole.classList.toggle('up');
-      setTimeout(() => {
-        hole.classList.toggle('up');
-
-        if (!timeUp)
-          peep();
-      }, time);
-    }
-
-    function bonk() {
-      if (!this.classList.contains('shake')) {
-        moleSound();
-        this.classList.add('shake');
-        score();
-      }
-    }
-
-    function hammerStrike() {
-      hammer.classList.add('active');
-      hammerSound();
-      
-      setTimeout(() => {
-        hammer.classList.remove('active');
-      }, 100);
-    }
-
-    function score() {
-      scoreCount++;
-      updateScoreBoard();
-    }
-
-    function updateScoreBoard() {
-      scoreBoard.forEach(board => board.textContent = scoreCount);
-    }
-
-    function startTimer() {
-      setTimeout(() => {
-        stopGame();
-      }, timer)
-    }
-
-    function stopGame() {
-      timeUp = true;
-      gameOver.classList.add('active');
-      endSound();
-    }
-
-    function resetGame() {
-      timeUp = false;
-      gameOver.classList.remove('active');
-      scoreCount = 0
-      updateScoreBoard();
-    }
-
-    function restart() {
-      resetGame();
-      startTimer();
-      peep();
-    }
-
-    function startGame() {
-      startBtn.style.display = 'none';
-      addHandlers();
-      restart();
-    }
-
-    function addHandlers() {
-      moles.forEach((mole) => mole.addEventListener('click', bonk));
-      window.addEventListener('mousemove', moveHammer);
-      window.addEventListener('mousedown', hammerStrike);
-    }
-  </script>
+  <script src="sound.js"></script>
+  <script src="hammer.js"></script>
+  <script src="game.js"></script>
 </body>
 
 </html>
