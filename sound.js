@@ -15,7 +15,6 @@ function preloadSounds() {
 window.addEventListener('load', preloadSounds);
 
 function playSound(file) {
-    soundFiles[file].currentTime = 0; // Reset to start
     soundFiles[file].play();
 }
 
