@@ -1,17 +1,32 @@
 // sound.js
+const soundFiles = {
+    smash: new Audio('assets/smash.mp3'),
+    mole: new Audio('assets/mole.mp3'),
+    tada: new Audio('assets/tada.mp3'),
+};
+
+function preloadSounds() {
+    for (const sound in soundFiles) {
+        soundFiles[sound].load(); // Trigger loading
+    }
+}
+
+// Call preloadSounds() when the page loads
+window.addEventListener('load', preloadSounds);
+
 function playSound(file) {
-    const sound = new Audio(file);
-    sound.play();
+    soundFiles[file].currentTime = 0; // Reset to start
+    soundFiles[file].play();
 }
 
 function hammerSound() {
-    playSound('assets/smash.mp3');
+    playSound('smash');
 }
 
 function moleSound() {
-    playSound('assets/mole.mp3');
+    playSound('mole');
 }
 
 function endSound() {
-    playSound('assets/tada.mp3');
+    playSound('tada');
 }
